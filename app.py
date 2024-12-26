@@ -37,6 +37,8 @@ INPUT_SIZE = (224, 224)
 MEAN = np.array([0.485, 0.456, 0.406])
 STD = np.array([0.229, 0.224, 0.225])
 LABELS = ["Cat", "Dog"]
+# Get hostname
+hostname = socket.gethostname()
 
 class ModelInference:
     def __init__(self, model_path):
@@ -110,7 +112,7 @@ class ModelInference:
 
 # Create application instances
 app = FastAPI(
-    title="Cat vs Dog Classifier",
+    title=f"Cat vs Dog Classifier - Pod: {hostname}",
     description="AI-powered image classification service",
     version="1.0.0"
 )
@@ -123,8 +125,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# Get hostname
-hostname = socket.gethostname()
+
 
 class PredictionResponse(BaseModel):
     """Response model for predictions"""
@@ -159,12 +160,12 @@ async def ui_home():
                 Card(
                     CardHeader(
                         Div(
-                            CardTitle("Cat vs Dog Classifier 🐱 🐶", cls="text-3xl font-extrabold text-indigo-600"),
+                            CardTitle("Cat vs Dog Classifier  🐱 🐶", cls="text-3xl font-extrabold text-indigo-600"),
                             Badge("AI Powered", variant="secondary", cls="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm"),
                             cls="flex items-center justify-between",
                         ),
                         CardDescription(
-                            "Upload an image to classify whether it's a cat or a dog. Our AI model will analyze it instantly!",
+                            f"Upload an image to classify whether it's a cat or a dog. - Pod: {hostname} !",
                             cls="text-lg text-gray-600"
                         ),
                     ),
